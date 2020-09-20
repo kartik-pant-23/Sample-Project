@@ -81,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 loadVideoData();
                 reloadBtn.setVisibility(View.GONE);
+                playWhenReady = true;
+                currentWindow = 0;
+                playbackPosition = 0;
+
             }
         });
     }
@@ -93,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
             loadVideoData();
         }
     }
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         if ((Util.SDK_INT < 24 || player == null)) {
             loadVideoData();
         }
-    }
+    }*/
     @Override
     public void onPause() {
         super.onPause();
@@ -133,9 +137,7 @@ public class MainActivity extends AppCompatActivity {
         MediaSource mediaSource = buildMediaSource(video);
         player.setPlayWhenReady(playWhenReady);
         player.seekTo(currentWindow, playbackPosition);
-        //player.prepare(mediaSource, false, false);
-        player.prepare(mediaSource);
-        player.prepare();
+        player.prepare(mediaSource, false, false);
         player.addListener(new Player.EventListener() {
             @Override
             public void onPlaybackStateChanged(int state) {
